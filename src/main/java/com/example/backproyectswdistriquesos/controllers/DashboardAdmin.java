@@ -33,7 +33,7 @@ public class DashboardAdmin {
     public ResponseEntity<Map<String, Long>> getLengthsTables(){
         Map<String, Long> overview = new HashMap<>();
         overview.put("totalProducts", productService.getLengthProducts());
-        overview.put("totalInventorys", inventoryService.getLengthInventory());
+        overview.put("totalInventory", inventoryService.getLengthInventory());
         overview.put("totalProviders", providerService.getLengthProviders());
         overview.put("totalOrders", orderService.getLengthOrders());
         overview.put("totalClients", clientService.getLengthClients());

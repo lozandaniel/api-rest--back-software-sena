@@ -4,6 +4,7 @@ import java.util.List;
 
 public class OrderRequest {
     private Long clientId;
+    private Long paymentMethodId;
     private List<CartItemRequest> cartItems;
 
     public Long getClientId() {
@@ -12,6 +13,14 @@ public class OrderRequest {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
+    }
+
+    public Long getPaymentMethodId() {
+        return paymentMethodId;
+    }
+
+    public void setPaymentMethodId(Long paymentMethodId) {
+        this.paymentMethodId = paymentMethodId;
     }
 
     public List<CartItemRequest> getCartItems() {

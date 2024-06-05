@@ -2,6 +2,7 @@ package com.example.backproyectswdistriquesos.services;
 
 import com.example.backproyectswdistriquesos.exception.InvalidCredentialsException;
 import com.example.backproyectswdistriquesos.models.Client;
+import com.example.backproyectswdistriquesos.models.Provider;
 import com.example.backproyectswdistriquesos.models.Role;
 import com.example.backproyectswdistriquesos.repository.ClientRepository;
 import com.example.backproyectswdistriquesos.repository.RoleRepository;
@@ -27,11 +28,7 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client updateClient(Long id, Client client) {
-        return clientRepository.save(client);
-    }
-
-    public Client getClient(Long id) {
+    public Client getClientById(Long id) {
         return clientRepository.findById(id).orElseThrow(() -> new RuntimeException("El usuario no se encuentra"));
     }
 
@@ -64,5 +61,34 @@ public class ClientService {
             throw new InvalidCredentialsException("Credenciales inválidas");
         }
         return client;
+    }
+
+    public Client updateClient (Long id, Client client) {
+        return clientRepository
+                .findById(id)
+                .map(client1 -> {
+                    if (client.getName() != null) {
+                        client1.setName(client.getName());
+                    }
+                    if (client.getIdentification() != null) {
+                        client1.setIdentification(client.getIdentification());
+                    }
+                    if (client.getRol() != null) {
+                        client1.setRol(client.getRol());
+                    }
+                    if (client.getPhone() != null) {
+                        client1.setPhone(client.getPhone());
+                    }
+                    if (client.getDirection() != null) {
+                        client1.setDirection(client.getDirection());
+                    }
+                    if(client.getPassword() != null){
+                        client1.setPassword(client.getPassword());
+                    }
+                    if (client.getEmail() != null) {
+                        client1.setEmail(client.getEmail());
+                    }
+                    return clientRepository.save(client1);
+                }).orElseThrow(() -> new RuntimeException("Cliente no se encuentra"));
     }
 }

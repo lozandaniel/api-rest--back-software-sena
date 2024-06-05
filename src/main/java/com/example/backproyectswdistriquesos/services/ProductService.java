@@ -66,6 +66,9 @@ public class ProductService {
                     if(product.getQuantity() != null){
                         product1.setQuantity(product.getQuantity());
                     }
+                    if(product.getImageUrl() != null){
+                        product1.setImageUrl(product.getImageUrl());
+                    }
                     return productRepository.save(product1);
                 }).orElseThrow(() -> new RuntimeException("Producto no se encontro"));
     }

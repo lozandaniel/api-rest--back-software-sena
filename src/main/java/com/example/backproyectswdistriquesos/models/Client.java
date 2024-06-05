@@ -1,5 +1,6 @@
 package com.example.backproyectswdistriquesos.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,6 +35,7 @@ public class Client {
 
     @CreationTimestamp
     @Column(name = "fecha_registro")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime registerDate;
 
     @OneToMany(mappedBy = "client")

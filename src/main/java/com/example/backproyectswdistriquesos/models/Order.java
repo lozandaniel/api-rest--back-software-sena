@@ -1,10 +1,12 @@
 package com.example.backproyectswdistriquesos.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -21,7 +23,8 @@ public class Order {
 
     @CreationTimestamp
     @Column(name = "fecha_compra")
-    private LocalDateTime buyDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime buyDate = LocalDateTime.now();
 
     @Column(name = "total")
     private Double total;
@@ -29,18 +32,23 @@ public class Order {
     @Column(name = "estado")
     private String status;
 
+    @ManyToOne
+    @JoinColumn(name = "id_medio_de_pago", referencedColumnName = "id_medio_de_pago")
+    private PaymentMethod paymentMethod;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItem> listOrderItems;
 
     public Order(){}
 
-    public Order(Long orderId, Client client, LocalDateTime buyDate, Double total, String status, List<OrderItem> listOrderItems) {
+    public Order(Long orderId, Client client, LocalDateTime buyDate, Double total, String status, PaymentMethod paymentMethod, List<OrderItem> listOrderItems) {
         this.orderId = orderId;
         this.client = client;
         this.buyDate = buyDate;
         this.total = total;
         this.status = status;
+        this.paymentMethod = paymentMethod;
         this.listOrderItems = listOrderItems;
     }
 
@@ -90,5 +98,13 @@ public class Order {
 
     public void setListOrderItems(List<OrderItem> listOrderItems) {
         this.listOrderItems = listOrderItems;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

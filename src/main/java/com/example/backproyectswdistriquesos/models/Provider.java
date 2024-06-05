@@ -1,5 +1,6 @@
 package com.example.backproyectswdistriquesos.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -28,6 +29,7 @@ public class Provider {
     private String city;
     @CreationTimestamp
     @Column(name = "fecha_registro")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime registerDate;
 
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL, orphanRemoval = true)

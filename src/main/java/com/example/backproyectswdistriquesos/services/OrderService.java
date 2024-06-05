@@ -1,12 +1,10 @@
 package com.example.backproyectswdistriquesos.services;
 
-import com.example.backproyectswdistriquesos.models.Client;
+import com.example.backproyectswdistriquesos.models.*;
 import com.example.backproyectswdistriquesos.models.Dto.CartItemRequest;
-import com.example.backproyectswdistriquesos.models.Order;
-import com.example.backproyectswdistriquesos.models.OrderItem;
-import com.example.backproyectswdistriquesos.models.Product;
 import com.example.backproyectswdistriquesos.repository.ClientRepository;
 import com.example.backproyectswdistriquesos.repository.OrderRepository;
+import com.example.backproyectswdistriquesos.repository.PaymentMethodRepository;
 import com.example.backproyectswdistriquesos.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,9 @@ public class OrderService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private PaymentMethodRepository paymentMethodRepository;
+
     public Long getLengthOrders() {
         return orderRepository.count();
     }
@@ -40,19 +41,32 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("La orden buscada no se encuentra disponible"));
     }
 
-    public Order createOrder(Long clientId, List<CartItemRequest> cartItems){
+    public List<Order> getOrdersByClientId (Long clientId) {
+        return orderRepository.getOrdersByClientClientId(clientId);
+    }
+
+    public void deleteOrder (Long id) {
+        orderRepository.deleteById(id);
+    }
+
+    public Order createOrder(Long clientId, Long paymentMethodId, List<CartItemRequest> cartItems){
 
         if (cartItems == null || cartItems.isEmpty()) {
             throw new RuntimeException("El carrito de compras no puede estar vacío.");
         }
 
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(paymentMethodId)
+                .orElseThrow(() -> new RuntimeException("El metodo no se encuentra"));
+        System.out.println(paymentMethod);
+
         Order order = new Order();
         order.setClient(new Client(clientId));
         System.out.println(order.getClient());
         order.setStatus("Pendiente");
+        order.setPaymentMethod(paymentMethod);
 
         List<OrderItem> orderItems = new ArrayList<>();
-        double total = 0.0;
+        double total = 0;
 
         for (CartItemRequest item : cartItems) {
             Product product = productRepository
