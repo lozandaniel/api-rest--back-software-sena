@@ -20,6 +20,9 @@ public class Client {
     @ManyToOne
     @JoinColumn(name = "id_rol")
     private Role rol;
+    @ManyToOne
+    @JoinColumn(name = "id_area")
+    private Area area;
     @Column(name = "nombre")
     private String name;
     @Column(name = "contraseña")
@@ -53,9 +56,10 @@ public class Client {
         this.clientId = clientId;
     }
 
-    public Client(Long clientId, Role rol, String name, String password, Integer identification, Integer phone, String email, String direction, LocalDateTime registerDate, List<Order> orders) {
+    public Client(Long clientId, Role rol, Area area, String name, String password, Integer identification, Integer phone, String email, String direction, LocalDateTime registerDate, List<Order> orders) {
         this.clientId = clientId;
         this.rol = rol;
+        this.area = area;
         this.name = name;
         this.password = password;
         this.identification = identification;
@@ -80,6 +84,14 @@ public class Client {
 
     public void setRol(Role rol) {
         this.rol = rol;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 
     public String getName() {

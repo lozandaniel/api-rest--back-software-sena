@@ -28,6 +28,9 @@ public class ClientController {
         return clientService.getClients();
     }
 
+    @GetMapping("employees")
+    public List<Client> getAllEmployees() {return clientService.getClientsByRolEmployee();}
+
     @GetMapping("clients/info")
     public ResponseEntity<?> getClient(HttpSession session) {
 

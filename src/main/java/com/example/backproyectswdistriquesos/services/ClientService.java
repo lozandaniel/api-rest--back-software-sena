@@ -28,6 +28,8 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
+    public List<Client> getClientsByRolEmployee() {return clientRepository.findByRolRol("empleado");}
+
     public Client getClientById(Long id) {
         return clientRepository.findById(id).orElseThrow(() -> new RuntimeException("El usuario no se encuentra"));
     }
